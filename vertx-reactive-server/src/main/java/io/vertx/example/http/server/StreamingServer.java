@@ -13,9 +13,13 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.example.util.Runner;
 
 
+/**
+ * @author Tuhin Gupta
+ *
+ */
 public class StreamingServer extends AbstractVerticle {
 	
-	// Convenience method so you can run it in your IDE
+
 	  public static void main(String[] args) {
 	    Runner.runExample(StreamingServer.class);
 	  }

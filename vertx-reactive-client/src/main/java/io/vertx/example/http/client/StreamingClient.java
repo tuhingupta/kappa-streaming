@@ -11,13 +11,24 @@ import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.streams.Pump;
 import io.vertx.example.util.Runner;
 
+/**
+ * @author Tuhin Gupta
+ *
+ */
 public class StreamingClient extends AbstractVerticle {
 	
 	
-	  final static String FILE_NAME = "/Users/tgupt24/Documents/servers/vertx/upload.json";
+	  static String FILE_NAME = null;
 
-	  // Convenience method so you can run it in your IDE
+	  
 	  public static void main(String[] args) {
+		  
+		  if(null == args[0] || args[0] == ""){
+			  System.err.println("Usage: javac io.vertx.example.http.client.StreamingClient <PATH_TO_INPUT_FILE_WITH_FILE_NAME>");
+			  System.exit(0);
+		  }
+		  
+		FILE_NAME = args[0];  
 	    Runner.runExample(StreamingClient.class);
 	  }
 
@@ -28,7 +39,7 @@ public class StreamingClient extends AbstractVerticle {
 		      System.out.println("Response " + resp.statusMessage());
 		    });
 
-		 // String filename = "/Users/tgupt24/Documents/servers/vertx/MOCK_DATA.json";
+
 		    FileSystem fs = vertx.fileSystem();
 
 		    fs.props(FILE_NAME, ares -> {
