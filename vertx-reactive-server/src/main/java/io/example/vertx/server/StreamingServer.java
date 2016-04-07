@@ -1,4 +1,4 @@
-package io.vertx.example.http.server;
+package io.example.vertx.server;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.example.kafka.producer.KafkaStreamProducer;
+import io.example.vertx.util.Runner;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.example.util.Runner;
 
 
 /**
@@ -44,6 +45,7 @@ public class StreamingServer extends AbstractVerticle {
 	    	
 	    	long byteswritten = 0;
 	    	
+			KafkaStreamProducer ksp = new KafkaStreamProducer();
 			
 			List<String> results = new ArrayList<String>();
 			String extraBytes = null;
@@ -78,7 +80,15 @@ public class StreamingServer extends AbstractVerticle {
 									start = m.start();
 							}
 
-							results.add(m.group());
+							//results.add(m.group());
+							try{
+								ksp.sendMessages("appA", m.group());
+							}catch(Exception ex){
+								ex.printStackTrace();
+								System.err.println("Error sending message to Kafka");
+							}
+							
+							
 							end = m.start() + m.group().length(); 
 
 						}//while
@@ -92,32 +102,6 @@ public class StreamingServer extends AbstractVerticle {
 						
 						
 						//---------------------------------------------------------------------------
-						/* code for parsing stream and finding incomplete strings using jackson events. NOT using it right now.
-						int counterClose;
-						int counterStart;
-						
-						if(buffer.getString(0, 1) == "{"){
-							
-							counterStart = 0;
-							
-							int indOf = buffer.toString().indexOf("}");
-							if(indOf > 0){
-								
-							}
-							
-						}else{
-							
-							int indOf = buffer.toString().indexOf("{");
-							if(indOf > 0){
-								
-								counterStart = indOf;
-								
-								//extra = ;
-								
-							}
-							
-						}
-						
 						
 						/*---------------------jackson parser
 						try{
@@ -169,18 +153,28 @@ public class StreamingServer extends AbstractVerticle {
 						
 						System.out.println("reaching here..");
 						
-						request.response().setStatusCode(202).setStatusMessage("bytes written" + byteswritten);
-						request.response().end();
 						
-						for (Iterator iterator = results.iterator(); iterator.hasNext(); ) {
-							System.out.println( iterator.next());
+						
+						try {
 							
+							
+							request.response().setStatusCode(202).setStatusMessage("bytes written" + byteswritten);
+							request.response().end();
+							
+							
+						
+						} catch (Exception e) {
+							
+							e.printStackTrace();
+						}finally{
+							ksp.closeProducer();
+							//reset
+							extraBytes = null;
+							results = new ArrayList<String>();
+							byteswritten = 0;
 						}
 						
-						//reset
-						extraBytes = null;
-						results = new ArrayList<String>();
-						byteswritten = 0;
+						
 						
 					}//handle
 				

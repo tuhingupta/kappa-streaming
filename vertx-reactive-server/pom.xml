@@ -46,6 +46,20 @@
         <version>${jersey.version}</version>
     </dependency>
     
+    <!-- kafka dependencies -->
+	<dependency>
+		<groupId>org.apache.kafka</groupId>
+		<artifactId>kafka_2.9.1</artifactId>
+		<version>0.8.2.2</version>
+	</dependency>
+    
+    <!-- google io -->
+      <dependency>
+       <groupId>com.google.guava</groupId>
+       <artifactId>guava</artifactId>
+       <version>19.0</version>
+   </dependency>
+    
     <!-- jackson dependencies -->
     <dependency>
         <groupId>org.codehaus.jackson</groupId>

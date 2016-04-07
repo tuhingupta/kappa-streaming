@@ -1,6 +1,7 @@
-package io.vertx.example.http.client;
+package io.example.vertx.client;
 
 
+import io.example.vertx.util.Runner;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.file.AsyncFile;
 import io.vertx.core.file.FileProps;
@@ -9,7 +10,6 @@ import io.vertx.core.file.OpenOptions;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.streams.Pump;
-import io.vertx.example.util.Runner;
 
 /**
  * @author Tuhin Gupta
