@@ -21,8 +21,11 @@ import io.vertx.core.http.HttpServerRequest;
 public class StreamingServer extends AbstractVerticle {
 	
 
-	  public static void main(String[] args) {
-	    Runner.runExample(StreamingServer.class);
+	  public static void main(String[] args) 
+	  {
+	  
+		  Runner.runExample(StreamingServer.class);
+	  
 	  }
 
 	  
@@ -65,6 +68,7 @@ public class StreamingServer extends AbstractVerticle {
 					public void handle(Buffer buffer) 
 					{
 						
+						//System.out.println("stream handler...");
 						byteswritten += buffer.length();
 						String inputString = extraBytes == null ? buffer.toString(): extraBytes + buffer.toString();
 						//using string patterns
@@ -74,14 +78,16 @@ public class StreamingServer extends AbstractVerticle {
 						//set request content-length header
 						request.headers().set("content-length", String.valueOf(byteswritten));
 						
+						
 						while (m.find()) {
 							if(start < 0){
 								if(m.start() > 0)
 									start = m.start();
 							}
 
-							//results.add(m.group());
+
 							try{
+								//adding message to Kafka topic
 								ksp.sendMessages("appA", m.group());
 							}catch(Exception ex){
 								ex.printStackTrace();
@@ -93,8 +99,7 @@ public class StreamingServer extends AbstractVerticle {
 
 						}//while
 						
-						//System.out.println("First wrong string - "+str.substring(0, start));
-						//System.out.println("Last wrong string - "+end+" "+str.substring(end, str.length()));
+						
 						if(end >= 0 && end < inputString.length()){
 							extraBytes = inputString.substring(end, inputString.length());
 						}
@@ -151,7 +156,7 @@ public class StreamingServer extends AbstractVerticle {
 					@Override
 					public void handle(Void event) {
 						
-						System.out.println("reaching here..");
+						System.out.println("...end handler.");
 						
 						
 						

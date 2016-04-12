@@ -1,9 +1,0 @@
-bootstrap.servers=192.168.99.100:9092
-acks=all
-retries=0
-batch.size=49152
-auto.commit.interval.ms=1000
-linger.ms=0
-key.serializer=org.apache.kafka.common.serialization.StringSerializer
-value.serializer=org.apache.kafka.common.serialization.StringSerializer
-block.on.buffer.full=false

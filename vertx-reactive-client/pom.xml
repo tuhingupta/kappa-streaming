@@ -10,7 +10,6 @@
 
   <artifactId>vertx-reactive-client</artifactId>
 
-  <name>vertx-reactive-client</name>
 
   <properties>
   	<vertx.version>3.2.1</vertx.version>
@@ -59,7 +58,7 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
+    
       <plugins>
         <!-- We specify the Maven compiler plugin as we need to set it to Java 1.8 -->
         <plugin>
@@ -70,7 +69,38 @@
             <target>1.8</target>
           </configuration>
         </plugin>
-      </plugins>
-    </pluginManagement>
+	
+	 <!-- jar with dependencies -->  
+    <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<version>2.4.1</version>
+		<configuration>
+			<!-- get all project dependencies -->
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+			<!-- MainClass in mainfest make a executable jar -->
+			<archive>
+			  <manifest>
+				<mainClass>io.example.vertx.client.StreamingClient</mainClass>
+			  </manifest>
+			</archive>
+
+		</configuration>
+		<executions>
+		  <execution>
+			<id>make-assembly</id>
+                                      <!-- bind to the packaging phase -->
+			<phase>package</phase> 
+			<goals>
+				<goal>single</goal>
+			</goals>
+		  </execution>
+		</executions>
+	</plugin>
+	
+	  </plugins>
+    
   </build>
 </project>
