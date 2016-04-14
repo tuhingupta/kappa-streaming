@@ -8,6 +8,7 @@
   <modules>
       <module>vertx-reactive-server</module>
       <module>vertx-reactive-client</module>
+      <module>flink-kafka-processor</module>
   </modules>
   
    <build>

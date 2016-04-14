@@ -71,6 +71,7 @@ public class StreamingServer extends AbstractVerticle {
 						//System.out.println("stream handler...");
 						byteswritten += buffer.length();
 						String inputString = extraBytes == null ? buffer.toString(): extraBytes + buffer.toString();
+						extraBytes = null;
 						//using string patterns
 						Matcher m = p.matcher(inputString);
 						
@@ -165,14 +166,16 @@ public class StreamingServer extends AbstractVerticle {
 							
 							request.response().setStatusCode(202).setStatusMessage("bytes written" + byteswritten);
 							request.response().end();
-							
+							extraBytes = null;
+							results = new ArrayList<String>();
+							byteswritten = 0;
 							
 						
 						} catch (Exception e) {
 							
 							e.printStackTrace();
 						}finally{
-							ksp.closeProducer();
+							//ksp.closeProducer();
 							//reset
 							extraBytes = null;
 							results = new ArrayList<String>();
