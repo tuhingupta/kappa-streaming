@@ -11,6 +11,7 @@ It is a maven multi-module project. It contains following modules
 *  flink-kafka-processor - uses streaming data processing framework Apache Flink to read data from Kafka and in this project it uses Cassandra to store the processed data.
 
 ##Licence
-
+<dl>
 <script>$("#testLoad").load("https://github.com/tuhingupta/kappa-streaming/blob/master/license.md");</script>
 <div id="testLoad"></div>
+</dl>
