@@ -1,5 +1,7 @@
 package io.example.flink.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -76,8 +78,8 @@ public class Transaction {
 		this.email = email;
 	}
 	
-	public Float getAmount(){
-		return new Float(this.transactionAmount);
+	public BigDecimal getAmount(){
+		return new BigDecimal(this.transactionAmount);
 	}
 	
 	
