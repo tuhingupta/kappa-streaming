@@ -1,6 +1,5 @@
 package io.example.flink.processor;
 
-import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
@@ -15,6 +14,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.example.flink.model.Transaction;
 import io.example.flink.sink.CassandraDataSink;
+
+
+
 
 /**
  * @author Tuhin Gupta
@@ -34,60 +36,39 @@ public class KafkaReader {
 		properties.setProperty("zookeeper.connect", "localhost:2181");
 		properties.setProperty("group.id", "consumer3");
 		
-//		
-//		DataStream<String> stream = env
-//			.addSource(new FlinkKafkaConsumer08<>("appA", new SimpleStringSchema(), properties))
-//			.print();
-		
-
-/* this reads the string from stream and prints it out.	
-	
-		DataStream<String> messageStream = env.
-			   addSource(new FlinkKafkaConsumer082<>("appA", new SimpleStringSchema(), properties));
-			  
-	   
-	   
-	   messageStream.map(new MapFunction<String, Transaction>() {
-			private static final long serialVersionUID = -6867736771747690202L;
-
-			@Override
-			public Transaction map(String value) throws Exception {
-				System.out.println("#####"+value);
-				return  new Transaction();
-			}
-		}).print();
-	   
-*/
 		
 		
-		DataStream<Tuple2<String, BigDecimal>> messageStream = env.
+		DataStream<Tuple2<String, Float>> messageStream = env.
 			   addSource(new FlinkKafkaConsumer08<>("appA", new SimpleStringSchema(), properties))
 			   .flatMap(new StreamToTuple())
 			   .keyBy(0)
                //.timeWindow(Time.seconds(5))
                .sum(1)
                ;
-			  
+		
+	//	messageStream.print();
 	   
 		messageStream.rebalance().addSink(new CassandraDataSink());
+		
+		System.out.println(env.getExecutionPlan());
 	   
 	   env.execute();
 
 	}
 	
 	
-	public static class StreamToTuple implements FlatMapFunction<String, Tuple2<String, BigDecimal>> {
+	public static class StreamToTuple implements FlatMapFunction<String, Tuple2<String, Float>> {
         
 		ObjectMapper mapper = new ObjectMapper();
 		
 		@Override
-        public void flatMap(String sentence, Collector<Tuple2<String, BigDecimal>> out) throws Exception {
+        public void flatMap(String sentence, Collector<Tuple2<String, Float>> out) throws Exception {
             
         	//System.out.println(sentence);
         	try{
         		Transaction  obj = mapper.readValue(sentence, Transaction.class);
 
-        		out.collect(new Tuple2<String, BigDecimal>(obj.getAccountNumber(), obj.getAmount()));
+        		out.collect(new Tuple2<String, Float>(obj.getAccountNumber(), obj.getAmount()));
         	}catch(Exception ex){
         		System.err.println(ex.getMessage()+" - Error processing record - "+sentence);
         	}

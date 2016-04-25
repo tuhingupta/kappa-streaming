@@ -1,8 +1,6 @@
 
 package io.example.cassandra.service;
 
-import java.math.BigDecimal;
-
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +23,7 @@ public class TransactionSnapshotService {
 	@Autowired
 	TransactionSnapshotRepo transactionSnapshotRepo;
 	
-	public void persist(Tuple2<String, BigDecimal> tuple){
+	public void persist(Tuple2<String, Float> tuple){
 		
 		final TransactionSnapshot ts = new TransactionSnapshot(tuple.getField(0), tuple.getField(1));
 		transactionSnapshotRepo.save(ts);

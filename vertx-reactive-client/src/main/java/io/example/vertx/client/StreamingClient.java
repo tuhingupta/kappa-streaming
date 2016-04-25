@@ -32,6 +32,10 @@ public class StreamingClient extends AbstractVerticle {
 	    Runner.runExample(StreamingClient.class);
 	  }
 
+	  
+	  //{"transaction_date":"2015-12-29","account_number":"201418777876948","transaction_amount":"803.02","last_name":"Willis","id":"405067","first_name":"Billy","email":"bwillis10@spotify.com"}
+	 // {"transaction_date":"2015-05-30","account_number":"4905709701528306163","transaction_amount":"224.86","last_name":"Lee","id":"405068","first_name":"Douglas","email":"dleep6@posterous.com"}
+
 	  public void start() {
 
 		  HttpClientRequest request = vertx.createHttpClient(new HttpClientOptions()).put(8998, "localhost", "", resp -> {

@@ -5,6 +5,9 @@ import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import io.example.cassandra.configuration.ApplicationConfiguration;
+import io.example.cassandra.service.TransactionSnapshotService;
+
 /**
  * @author Tuhin Gupta
  *
@@ -17,16 +20,16 @@ public class CassandraDataSink implements SinkFunction<Tuple2<String, Float>> {
 	
 	
 	  /**
-	   * Function for standard sink behaviour. This function is called for every record.
+	   * Function for standard sink behavior. This function is called for every record.
 	   *
 	   * @param tuple The input tuple entity that shall be stored in cassandra table
 	   */
 	@Override
 	public void invoke(final Tuple2<String, Float> tuple) throws Exception 
 	{
-	
-	    UserActivityEventsPersister userActivityEventsPersister = applicationContext.getBean(UserActivityEventsPersister.class);
-	    userActivityEventsPersister.persist(jsonEntity);
+
+		TransactionSnapshotService tsService = applicationContext.getBean(TransactionSnapshotService.class);
+		tsService.persist(tuple);
 	  
 	}	
 

@@ -14,9 +14,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <flink-connector-kafka>1.1-SNAPSHOT</flink-connector-kafka>
+    <flink-connector-kafka>1.0.1</flink-connector-kafka>
     <flink-version>1.0.1</flink-version>
-    <spring.version>4.2.4.RELEASE</spring.version>
+   <spring.version>4.2.4.RELEASE</spring.version>
     <spring.data.version>1.9.2.RELEASE</spring.data.version>
 	<spring.data.cassandra.version>1.3.2.RELEASE</spring.data.cassandra.version>
     <org.slf4j.version>1.7.12</org.slf4j.version>
@@ -30,7 +30,7 @@
   <dependencies>
   
   <!-- flink jars -->
-  	<dependency>
+   	<dependency>
 		<groupId>org.apache.flink</groupId>
 		<artifactId>flink-java</artifactId>
 		<version>${flink-version}</version>
@@ -48,12 +48,10 @@
 	<dependency>
 		<groupId>org.apache.flink</groupId>
 		<artifactId>flink-runtime_2.10</artifactId>
-		<version>1.0.1</version>
+		<version>${flink-version}</version>
 	</dependency>
-
-
-		
-	<!-- flink connector jars -->
+	
+	<!-- flink connector jars - Don't use a SNAPSHOT version-->
 	<dependency>
 	  <groupId>org.apache.flink</groupId>
 	  <artifactId>flink-connector-kafka-0.8_2.10</artifactId>
@@ -100,7 +98,7 @@
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
-   
+    
 
   </dependencies>
 

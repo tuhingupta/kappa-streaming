@@ -86,8 +86,9 @@ public class StreamingServer extends AbstractVerticle {
 									start = m.start();
 							}
 
-
+							
 							try{
+							
 								//adding message to Kafka topic
 								ksp.sendMessages("appA", m.group());
 							}catch(Exception ex){

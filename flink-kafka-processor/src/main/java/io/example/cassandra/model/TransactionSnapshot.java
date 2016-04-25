@@ -1,7 +1,5 @@
 package io.example.cassandra.model;
 
-import java.math.BigDecimal;
-
 import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 import org.springframework.data.cassandra.mapping.Table;
@@ -19,11 +17,11 @@ public class TransactionSnapshot {
 	String accountNumber;
 	
 	@Column(value = "transaction_amount")
-	BigDecimal amount;
+	Float amount;
 	
 	
 
-	public TransactionSnapshot(String accountNumber, BigDecimal amount) {
+	public TransactionSnapshot(String accountNumber, Float amount) {
 		super();
 		this.accountNumber = accountNumber;
 		this.amount = amount;
@@ -37,11 +35,11 @@ public class TransactionSnapshot {
 		this.accountNumber = accountNumber;
 	}
 
-	public BigDecimal getAmount() {
+	public Float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(Float amount) {
 		this.amount = amount;
 	}
 
